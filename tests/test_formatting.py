@@ -7,7 +7,7 @@ def test_money_symbols():
 def test_zero_decimal_currencies_print_whole_units():
     assert format_money(Decimal("1200"),"JPY")=="JPY 1200"; assert format_money(Decimal("1200"),"KRW")=="KRW 1200"
 def test_zero_decimal_currency_code_is_case_insensitive():
-    assert format_money(Decimal("1200"),"jpy")=="JPY 1200"
+    assert format_money(Decimal("1200"),"jpy")=="JPY 1200"; assert format_money(Decimal("1200"),"Krw")=="KRW 1200"
 def test_zero_decimal_amounts_round_half_up_like_minor_units():
     assert format_money(Decimal("1200.5"),"JPY")=="JPY 1201"; assert format_money(Decimal("1200.4"),"JPY")=="JPY 1200"
     assert format_money(Decimal("1200.5"),"KRW")==f"KRW {minor_units(Decimal('1200.5'),'KRW')}"
