@@ -25,7 +25,7 @@ def calculate_totals(invoice, discount_code=None):
     subtotal = money(sum((line.net for line in invoice.lines), Decimal("0")))
     # An explicit function argument wins for batch callers; otherwise use the invoice code.
     code = discount_code if discount_code is not None else invoice.rebate_code
-    rate = discount_for(code, subtotal)
-    lines = tuple(calculate_line(line, rate) for line in invoice.lines)
+    rebate_rate = discount_for(code, subtotal)
+    lines = tuple(calculate_line(line, rebate_rate) for line in invoice.lines)
     taxable = money(sum((x.net for x in lines), Decimal("0"))); tax = money(sum((x.tax for x in lines), Decimal("0")))
     return InvoiceTotals(subtotal, money(subtotal-taxable), taxable, tax, money(taxable+tax), lines, invoice.currency.upper())
