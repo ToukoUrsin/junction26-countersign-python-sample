@@ -15,3 +15,16 @@ def test_partner_minimum_is_inclusive():
 def test_validation():
     with pytest.raises(ValueError): InvoiceLine("",Decimal("1"),Decimal("1"),VAT)
     with pytest.raises(ValueError): InvoiceLine("x",Decimal("0"),Decimal("1"),VAT)
+
+def test_invoice_rebate_code_is_used_when_no_override():
+    invoice = Invoice.from_lines("I-4", "Example", [line("100")], rebate_code="WELCOME")
+    result = calculate_totals(invoice)
+    assert result.discount == Decimal("5.00")
+
+def test_explicit_code_overrides_invoice_code():
+    invoice = Invoice.from_lines("I-5", "Example", [line("100")], rebate_code="WELCOME")
+    result = calculate_totals(invoice, "NONPROFIT")
+    assert result.discount == Decimal("0.00")
+
+def test_blank_rebate_code_is_rejected():
+    with pytest.raises(ValueError): Invoice.from_lines("I-6", "Example", [line("100")], rebate_code=" ")
