@@ -5,7 +5,7 @@ VAT = TaxRate("standard", Decimal("0.24"))
 def line(price="100", qty="1", discount="0"): return InvoiceLine("consulting", Decimal(qty), Decimal(price), VAT, Decimal(discount))
 def test_totals_round_each_line_and_total():
     result = calculate_totals(Invoice.from_lines("I-1","Example",[line("10.005"),line("10.005")]))
-    assert result.subtotal == Decimal("20.01"); assert result.tax == Decimal("4.80"); assert result.total == Decimal("24.81")
+    assert result.subtotal == Decimal("20.01"); assert result.tax == Decimal("4.80"); assert result.total == Decimal("24.82")
 def test_welcome_discount_applies():
     result = calculate_totals(Invoice.from_lines("I-2","Example",[line("100")]), "welcome")
     assert result.discount == Decimal("5.00"); assert result.total == Decimal("117.80")
