@@ -1,0 +1,18 @@
+version: "2026-11-14.python1"
+requirement:
+  pattern: "REQ-(\\d+)"
+  source: "github-issues"
+  repo: ""
+  missing: "full-read"
+areas:
+  - { name: "invoice-core", paths: ["src/invoice_engine/**"], criticality: medium }
+  - { name: "tests", paths: ["tests/**"], criticality: low }
+  - { name: "build", paths: ["pyproject.toml", ".countersign.yml"], criticality: medium }
+sandbox:
+  adapter: "python"
+  testRoots: ["tests/"]
+  framework: ""
+  maxAblations: 10
+  canaries: 4
+  testMap:
+    "src/invoice_engine/": "tests"
