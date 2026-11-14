@@ -1,5 +1,7 @@
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 CENT = Decimal("0.01")
+# Currencies with no minor unit. The one list minor_units and format_money both read.
+ZERO_DECIMAL_CURRENCIES = frozenset({"JPY", "KRW"})
 def money(value, mode="half_up"):
     if mode == "half_up": return value.quantize(CENT, rounding=ROUND_HALF_UP)
     if mode == "bankers": return value.quantize(CENT, rounding=ROUND_HALF_EVEN)
@@ -13,5 +15,5 @@ def allocate(total, weights):
     while remainder != 0: parts[i % len(parts)] += step; remainder -= step; i += 1
     return parts
 def minor_units(value, currency="EUR"):
-    if currency.upper() in {"JPY","KRW"}: return int(value.quantize(Decimal("1"), rounding=ROUND_HALF_UP))
+    if currency.upper() in ZERO_DECIMAL_CURRENCIES: return int(value.quantize(Decimal("1"), rounding=ROUND_HALF_UP))
     return int((value*100).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
