@@ -30,11 +30,13 @@ class Invoice:
     lines: tuple[InvoiceLine,...]
     currency: str = "EUR"
     notes: str = ""
+    rebate_code: str | None = None
     def __post_init__(self):
         if not self.number.strip(): raise ValueError("invoice number is required")
         if not self.customer.strip(): raise ValueError("customer is required")
         if not self.lines: raise ValueError("invoice needs at least one line")
         if len(self.currency) != 3 or not self.currency.isalpha(): raise ValueError("currency must be 3 letters")
+        if self.rebate_code is not None and not self.rebate_code.strip(): raise ValueError("rebate code must not be blank")
     @classmethod
-    def from_lines(cls, number, customer, lines: Iterable[InvoiceLine], currency="EUR"):
-        return cls(number, customer, tuple(lines), currency.upper())
+    def from_lines(cls, number, customer, lines: Iterable[InvoiceLine], currency="EUR", rebate_code=None):
+        return cls(number, customer, tuple(lines), currency.upper(), rebate_code=rebate_code)
