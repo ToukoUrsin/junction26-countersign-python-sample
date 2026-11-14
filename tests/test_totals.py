@@ -10,7 +10,7 @@ def test_welcome_discount_applies():
     result = calculate_totals(Invoice.from_lines("I-2","Example",[line("100")]), "welcome")
     assert result.discount == Decimal("5.00"); assert result.total == Decimal("117.80")
 def test_partner_minimum_is_inclusive():
-    result = calculate_totals(Invoice.from_lines("I-3","Example",[line("1000")]), "PARTNER"))
+    result = calculate_totals(Invoice.from_lines("I-3","Example",[line("1000")]), "PARTNER")
     assert result.discount == Decimal("100.00")
 def test_validation():
     with pytest.raises(ValueError): InvoiceLine("",Decimal("1"),Decimal("1"),VAT)
